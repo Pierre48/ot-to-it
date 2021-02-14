@@ -1,0 +1,42 @@
+﻿@page "/Opc"
+
+@using OpcWeb.Data
+@inject OpcService OpcService
+
+<h1>Opc Values</h1>
+
+<p>This component contains data from OpcServer</p>
+
+@if (opcValues == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tag</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var opcValue in opcValues)
+            {
+                <tr>
+                    <td>@opcValue.Name</td>
+                    <td>@opcValue.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private OpcValue[] opcValues;
+
+    protected override async Task OnInitializedAsync()
+    {
+        opcValues = await OpcService.GetOpcValuesAsync();
+    }
+}
