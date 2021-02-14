@@ -1,0 +1,13 @@
+
+version: '3.4'
+
+services:
+  opcserver:
+    image: opcserver
+    build:
+      context: .
+      dockerfile: src/OpcServer/Dockerfile
+    ports:
+      - "62540:62540"
+      - "62541:62541"
+
