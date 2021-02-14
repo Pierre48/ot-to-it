@@ -9,7 +9,7 @@ namespace OpcServer
     {
         public static int Main(string[] args)
         {
-            Console.WriteLine("{0} OPC UA Reference Server.Net Core");
+            Console.WriteLine("OPC UA Reference Server.Net Core");
 
             // command line options
             bool showHelp = false;
