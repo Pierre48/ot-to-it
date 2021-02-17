@@ -1,0 +1,32 @@
+{
+    "name": "plc-1-source",
+    "config": {
+        "connector.class": "org.apache.plc4x.kafka.Plc4xSourceConnector",
+        "default.topic": "DefaultTopic",
+        "tasks.max": 2,
+        "sources": "machineA",
+        "sources.machineA.connectionString": "opcua:tcp://127.0.0.1:62541/Quickstarts/ReferenceServer",
+        "sources.machineA.pollReturnInterval": 5000,
+        "sources.machineA.bufferSize": 1000,
+        "sources.machineA.jobReferences": "simulated-dashboard,simulated-heartbeat",
+        "sources.machineA.jobReferences.simulated-heartbeat.topic": "simulated-heartbeat-topic",
+        "jobs": "simulated-dashboard,simulated-heartbeat",
+        "jobs.simulated-dashboard.interval": "1000",
+        "jobs.simulated-dashboard.fields": "Name",
+        "jobs.simulated-dashboard.fields.Name": "ns=2;s=Tag_String:STRING",
+        "jobs.simulated-heartbeat.interval": 500,
+        "jobs.simulated-heartbeat.fields": "active",
+        "jobs.simulated-heartbeat.fields.active": "ns=2;s=Tag_String:STRING",
+        "bootstrap.servers": "localhost:9092",
+        "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "key.converter.schema.registry.url": "http://127.0.0.1:8081",
+        "value.converter.schema.registry.url": "http://127.0.0.1:8081",
+        "key.converter.schemas.enable": "true",
+        "value.converter.schemas.enable": "true",
+        "offset.storage.file.filename": "/tmp/connect.offsets",
+        "offset.flush.interval.ms": "10000",
+        "enable.idempotence": "true",
+        "acks": "all"
+    }
+}

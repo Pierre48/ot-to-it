@@ -52,7 +52,6 @@ namespace OpcServer
 
             return (int)MyRefServer.ExitCode;
         }
-
     }
 
 
@@ -64,5 +63,6 @@ namespace OpcServer
         ErrorServerException = 0x82,
         ErrorInvalidCommandLine = 0x100
     };
+
 
 }
