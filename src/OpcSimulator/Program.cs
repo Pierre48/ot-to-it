@@ -11,6 +11,7 @@ namespace OpcSimulator
 {
     class Program
     {
+        static int idF= 1;
         static void Main(string[] args)
         {
             var wtoken = new CancellationTokenSource();
@@ -19,7 +20,7 @@ namespace OpcSimulator
                 while (true)
                 {
                     await Run();
-                    await Task.Delay(1000, wtoken.Token); // <- await with cancellation
+                    await Task.Delay(2000, wtoken.Token); // <- await with cancellation
                 }
             }, wtoken.Token);
             task.Wait();
@@ -43,6 +44,8 @@ namespace OpcSimulator
             }
         async static Task Run()
         {
+            var i = new Random(DateTime.Now.Millisecond).Next(19)+1;
+
             UserIdentity userIdentity = new UserIdentity(new AnonymousIdentityToken());
             ApplicationInstance application = new ApplicationInstance
             {
@@ -59,18 +62,30 @@ namespace OpcSimulator
 
             WriteValueCollection nodesToWrite = new WriteValueCollection();
 
-            // Int32 Node - Objects\CTT\Scalar\Scalar_Static\Int32
-            WriteValue intWriteVal = new WriteValue();
-            intWriteVal.NodeId = new NodeId("ns=2;s=Tag_String");
-            intWriteVal.AttributeId = Attributes.Value;
-            intWriteVal.Value = new DataValue();
-            intWriteVal.Value.Value = "Pierre-" + DateTime.Now.ToLongTimeString();
-            nodesToWrite.Add(intWriteVal);
+            WriteValue weight = new WriteValue();
+            weight.NodeId = new NodeId("ns=2;s=Fabrication_Weight_"+i);
+            weight.AttributeId = Attributes.Value;
+            weight.Value = new DataValue();
+            weight.Value.Value = (float)(new Random(DateTime.Now.Millisecond).Next(10000) / 100);
+            nodesToWrite.Add(weight);
+            WriteValue dateFabrication = new WriteValue();
+            dateFabrication.NodeId = new NodeId("ns=2;s=Fabrication_Date_"+i);
+            dateFabrication.AttributeId = Attributes.Value;
+            dateFabrication.Value = new DataValue();
+            dateFabrication.Value.Value = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
+            nodesToWrite.Add(dateFabrication);
+            WriteValue idFabrication = new WriteValue();
+            idFabrication.NodeId = new NodeId("ns=2;s=Fabrication_Id_"+i);
+            idFabrication.AttributeId = Attributes.Value;
+            idFabrication.Value = new DataValue();
+            idFabrication.Value.Value = idF++.ToString();
+            nodesToWrite.Add(idFabrication);
+
 
             // Write the node attributes
             StatusCodeCollection results = null;
             DiagnosticInfoCollection diagnosticInfos;
-            Console.WriteLine("Writing nodes...");
+            Console.WriteLine("Fabrication for machine " + i);
 
             // Call Write Service
             m_session.Write(null,
@@ -80,9 +95,6 @@ namespace OpcSimulator
 
             // Validate the response
             ClientBase.ValidateResponse(results, nodesToWrite);
-
-            // Display the results.
-            Console.WriteLine("Write Results :");
 
             foreach (StatusCode writeResult in results)
             {
