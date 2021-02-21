@@ -195,8 +195,8 @@ namespace Quickstarts.ReferenceServer
                     FolderState machineFolder = CreateFolder(root, $"Machine_{i}", $"Machine_{i}");
                     variables.Add(CreateVariable(machineFolder,  $"Id_{i}", $"Id_{i}", DataTypeIds.String, ValueRanks.Scalar,i.ToString()));
                     variables.Add(CreateVariable(machineFolder,  $"Fabrication_Date_{i}", $"Fabrication_Date_{i}", DataTypeIds.DateString, ValueRanks.Scalar,null));
-                    variables.Add(CreateVariable(machineFolder,  $"Fabrication_Id_{i}", $"Fabrication_Id_{i}", DataTypeIds.DateString, ValueRanks.Scalar,null));
-                    variables.Add(CreateVariable(machineFolder,  $"Fabrication_Weight_{i}", $"Fabrication_Weight_{i}", DataTypeIds.DateString, ValueRanks.Scalar,null));
+                    variables.Add(CreateVariable(machineFolder,  $"Fabrication_Id_{i}", $"Fabrication_Id_{i}", DataTypeIds.String, ValueRanks.Scalar,null));
+                    variables.Add(CreateVariable(machineFolder,  $"Fabrication_Weight_{i}", $"Fabrication_Weight_{i}", DataTypeIds.Float, ValueRanks.Scalar,null));
                 }
 
                 FolderState scalarFolder = CreateFolder(root, "Scalar", "Scalar");
