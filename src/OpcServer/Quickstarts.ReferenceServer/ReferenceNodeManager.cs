@@ -188,14 +188,24 @@ namespace Quickstarts.ReferenceServer
                 root.EventNotifier = EventNotifiers.SubscribeToEvents;
                 AddRootNotifier(root);
 
-                List<BaseDataVariableState> variables = new List<BaseDataVariableState>();
-                    FolderState scalarFolder = CreateFolder(root, "Scalar", "Scalar");
 
-                    FolderState staticFolder = CreateFolder(scalarFolder, "Values", "Values");
-                    const string scalarStatic = "Tag_";
-                    var variable=CreateVariable(staticFolder, scalarStatic + "String", "String", DataTypeIds.String, ValueRanks.Scalar);
-                    variable.Value="Pierre";
-                    variables.Add(variable);
+                List<BaseDataVariableState> variables = new List<BaseDataVariableState>();
+                for (int i = 1; i <= 20; i++)
+                {
+                    FolderState machineFolder = CreateFolder(root, $"Machine_{i}", $"Machine_{i}");
+                    variables.Add(CreateVariable(machineFolder,  $"Id_{i}", $"Id_{i}", DataTypeIds.String, ValueRanks.Scalar,i.ToString()));
+                    variables.Add(CreateVariable(machineFolder,  $"Fabrication_Date_{i}", $"Fabrication_Date_{i}", DataTypeIds.DateString, ValueRanks.Scalar,null));
+                    variables.Add(CreateVariable(machineFolder,  $"Fabrication_Id_{i}", $"Fabrication_Id_{i}", DataTypeIds.DateString, ValueRanks.Scalar,null));
+                    variables.Add(CreateVariable(machineFolder,  $"Fabrication_Weight_{i}", $"Fabrication_Weight_{i}", DataTypeIds.DateString, ValueRanks.Scalar,null));
+                }
+
+                FolderState scalarFolder = CreateFolder(root, "Scalar", "Scalar");
+
+                FolderState staticFolder = CreateFolder(scalarFolder, "Values", "Values");
+                const string scalarStatic = "Tag_";
+                var variable = CreateVariable(staticFolder, scalarStatic + "String", "String", DataTypeIds.String, ValueRanks.Scalar);
+                variable.Value = "Pierre";
+                variables.Add(variable);
 
 
                 AddPredefinedNode(SystemContext, root);
@@ -934,7 +944,7 @@ namespace Quickstarts.ReferenceServer
         /// <summary>
         /// Creates a new variable.
         /// </summary>
-        private BaseDataVariableState CreateVariable(NodeState parent, string path, string name, NodeId dataType, int valueRank)
+        private BaseDataVariableState CreateVariable(NodeState parent, string path, string name, NodeId dataType, int valueRank, string value=null)
         {
             BaseDataVariableState variable = new BaseDataVariableState(parent);
 
@@ -968,7 +978,7 @@ namespace Quickstarts.ReferenceServer
             {
                 parent.AddChild(variable);
             }
-
+            variable.Value=value;
             return variable;
         }
 
