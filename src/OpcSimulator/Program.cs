@@ -80,6 +80,18 @@ namespace OpcSimulator
             idFabrication.Value = new DataValue();
             idFabrication.Value.Value = idF++.ToString();
             nodesToWrite.Add(idFabrication);
+            WriteValue mixingDuration = new WriteValue();
+            mixingDuration.NodeId = new NodeId("ns=2;s=Mixing_Duration_"+i);
+            mixingDuration.AttributeId = Attributes.Value;
+            mixingDuration.Value = new DataValue();
+            mixingDuration.Value.Value = (float)(new Random(DateTime.Now.Millisecond).Next(10000) / 100);
+            nodesToWrite.Add(mixingDuration);
+            WriteValue curingDuration = new WriteValue();
+            curingDuration.NodeId = new NodeId("ns=2;s=Curing_Duration_"+i);
+            curingDuration.AttributeId = Attributes.Value;
+            curingDuration.Value = new DataValue();
+            curingDuration.Value.Value = (float)(new Random(DateTime.Now.Millisecond).Next(10000) / 100);
+            nodesToWrite.Add(curingDuration);
 
 
             // Write the node attributes

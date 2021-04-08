@@ -197,6 +197,14 @@ namespace Quickstarts.ReferenceServer
                     variables.Add(CreateVariable(machineFolder,  $"Fabrication_Date_{i}", $"Fabrication_Date_{i}", DataTypeIds.DateString, ValueRanks.Scalar,null));
                     variables.Add(CreateVariable(machineFolder,  $"Fabrication_Id_{i}", $"Fabrication_Id_{i}", DataTypeIds.String, ValueRanks.Scalar,null));
                     variables.Add(CreateVariable(machineFolder,  $"Fabrication_Weight_{i}", $"Fabrication_Weight_{i}", DataTypeIds.Float, ValueRanks.Scalar,null));
+
+                    var operationsFolder =  CreateFolder(machineFolder, $"Operations_{i}", $"Operations_{i}");
+                    var MixingFolder =  CreateFolder(operationsFolder, $"Mixing_{i}", $"Mixing_{i}");
+                    variables.Add(CreateVariable(MixingFolder,  $"Mixing_Duration_{i}", $"Mixing_Duration_{i}", DataTypeIds.Float, ValueRanks.Scalar,null));
+                    var curingFolder =  CreateFolder(operationsFolder, $"Curing_{i}", $"Curing_{i}");
+                    variables.Add(CreateVariable(curingFolder,  $"Curing_Duration_{i}", $"Curing_Duration_{i}", DataTypeIds.Float, ValueRanks.Scalar,null));
+
+
                 }
 
                 FolderState scalarFolder = CreateFolder(root, "Scalar", "Scalar");

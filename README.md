@@ -11,6 +11,11 @@ RootFolder
         ├── Fabrication_Date_1
         ├── Fabrication_Id_1
         ├── Fabrication_Weight_1
+        ├── Operations
+            ├── Curing
+                ├── Curing_Duration_1
+            ├── Mixing
+                ├── Mixing_Duration_1
 ...
     ├── Machine_20
         ├── id_20
