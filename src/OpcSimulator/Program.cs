@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Opc.Ua;
@@ -12,15 +13,32 @@ namespace OpcSimulator
     class Program
     {
         static int idF= 1;
+        private static Session  m_session;
+
         static void Main(string[] args)
         {
+
+            UserIdentity userIdentity = new UserIdentity(new AnonymousIdentityToken());
+            ApplicationInstance application = new ApplicationInstance
+            {
+                ApplicationName = "UA Core Complex Client",
+                ApplicationType = ApplicationType.Client,
+                ConfigSectionName = "Opc.Ua.ComplexClient"
+            };
+            ApplicationConfiguration config = application.LoadApplicationConfiguration("OpcConfig.xml", false).Result;
+            var endpointURL = GetEnvVar("OPC_SERVER","opc.tcp://localhost:62541/Quickstarts/ReferenceServer");
+            var selectedEndpoint = CoreClientUtils.SelectEndpoint(endpointURL, false && !true, 15000);
+            m_session = CreateSession(config, selectedEndpoint, userIdentity).Result;
+
+
+
             var wtoken = new CancellationTokenSource();
             var task = Task.Run(async () =>
             {
                 while (true)
                 {
                     await Run();
-                    await Task.Delay(2000, wtoken.Token); // <- await with cancellation
+                    await Task.Delay(200, wtoken.Token); // <- await with cancellation
                 }
             }, wtoken.Token);
             task.Wait();
@@ -45,19 +63,6 @@ namespace OpcSimulator
         async static Task Run()
         {
             var i = new Random(DateTime.Now.Millisecond).Next(19)+1;
-
-            UserIdentity userIdentity = new UserIdentity(new AnonymousIdentityToken());
-            ApplicationInstance application = new ApplicationInstance
-            {
-                ApplicationName = "UA Core Complex Client",
-                ApplicationType = ApplicationType.Client,
-                ConfigSectionName = "Opc.Ua.ComplexClient"
-            };
-            ApplicationConfiguration config = await application.LoadApplicationConfiguration("OpcConfig.xml", false).ConfigureAwait(false);
-            var endpointURL = GetEnvVar("OPC_SERVER","opc.tcp://localhost:62541/Quickstarts/ReferenceServer");
-            var selectedEndpoint = CoreClientUtils.SelectEndpoint(endpointURL, false && !true, 15000);
-            var m_session = await CreateSession(config, selectedEndpoint, userIdentity).ConfigureAwait(false);
-
 
 
             WriteValueCollection nodesToWrite = new WriteValueCollection();
