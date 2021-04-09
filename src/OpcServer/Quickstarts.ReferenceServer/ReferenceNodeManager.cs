@@ -192,17 +192,17 @@ namespace Quickstarts.ReferenceServer
                 List<BaseDataVariableState> variables = new List<BaseDataVariableState>();
                 for (int i = 1; i <= 20; i++)
                 {
-                    FolderState machineFolder = CreateFolder(root, $"Machine_{i}", $"Machine_{i}");
-                    variables.Add(CreateVariable(machineFolder,  $"Id_{i}", $"Id_{i}", DataTypeIds.String, ValueRanks.Scalar,i.ToString()));
-                    variables.Add(CreateVariable(machineFolder,  $"Fabrication_Date_{i}", $"Fabrication_Date_{i}", DataTypeIds.DateString, ValueRanks.Scalar,null));
-                    variables.Add(CreateVariable(machineFolder,  $"Fabrication_Id_{i}", $"Fabrication_Id_{i}", DataTypeIds.String, ValueRanks.Scalar,null));
-                    variables.Add(CreateVariable(machineFolder,  $"Fabrication_Weight_{i}", $"Fabrication_Weight_{i}", DataTypeIds.Float, ValueRanks.Scalar,null));
+                    FolderState machineFolder = CreateFolder(root, $"Factory.Machine{i}", $"Factory.Machine-{i}");
+                    variables.Add(CreateVariable(machineFolder,  $"Factory.Machine{i}.Id", $"Id", DataTypeIds.String, ValueRanks.Scalar,i.ToString()));
+                    variables.Add(CreateVariable(machineFolder,  $"Factory.Machine{i}.Fabrication.Date", $"Factory.Machine{i}.Fabrication.Date", DataTypeIds.DateString, ValueRanks.Scalar,null));
+                    variables.Add(CreateVariable(machineFolder,  $"Factory.Machine{i}.Fabrication.Id", $"Factory.Machine{i}.Fabrication.Id", DataTypeIds.String, ValueRanks.Scalar,null));
+                    variables.Add(CreateVariable(machineFolder,  $"Factory.Machine{i}.Fabrication.Weight", $"Factory.Machine{i}.Fabrication.Weight", DataTypeIds.Float, ValueRanks.Scalar,null));
 
-                    var operationsFolder =  CreateFolder(machineFolder, $"Operations_{i}", $"Operations_{i}");
-                    var MixingFolder =  CreateFolder(operationsFolder, $"Mixing_{i}", $"Mixing_{i}");
-                    variables.Add(CreateVariable(MixingFolder,  $"Mixing_Duration_{i}", $"Mixing_Duration_{i}", DataTypeIds.Float, ValueRanks.Scalar,null));
-                    var curingFolder =  CreateFolder(operationsFolder, $"Curing_{i}", $"Curing_{i}");
-                    variables.Add(CreateVariable(curingFolder,  $"Curing_Duration_{i}", $"Curing_Duration_{i}", DataTypeIds.Float, ValueRanks.Scalar,null));
+                    var operationsFolder =  CreateFolder(machineFolder, $"Factory.Machine{i}.Fabrication.Operations", $"Factory.Machine{i}.Fabrication.Operations");
+                    var MixingFolder =  CreateFolder(operationsFolder, $"Factory.Machine{i}.Fabrication.Operations.Mixing", $"Factory.Machine{i}.Fabrication.Operations.Mixing");
+                    variables.Add(CreateVariable(MixingFolder,  $"Factory.Machine{i}.Fabrication.Operations.Mixing.Duration", $"Factory.Machine{i}.Fabrication.Operations.Mixing.Duration", DataTypeIds.Float, ValueRanks.Scalar,null));
+                    var curingFolder =  CreateFolder(operationsFolder, $"Factory.Machine{i}.Fabrication.Operations.Curing", $"Factory.Machine{i}.Fabrication.Operations.Curing");
+                    variables.Add(CreateVariable(curingFolder,  $"Factory.Machine{i}.Fabrication.Operations.Curing.Duration", $"Factory.Machine{i}.Fabrication.Operations.Curing.Duration", DataTypeIds.Float, ValueRanks.Scalar,null));
 
 
                 }
