@@ -96,7 +96,7 @@ services:
     hostname: connect
     build:
       context: .
-      dockerfile: src/kafka-connect-plc4j/Dockerfile
+      dockerfile: src/plc-subscription-source-connector/Dockerfile
     depends_on:
       - broker
       - schema-registry
